@@ -7,6 +7,10 @@ product spotlight dialog), the aroma edit content hub, brand initiatives, an exp
 looping journey video, a made with india gate instagram embed, other ranges and faqs. A
 quiz section is still stubbed and not built yet.
 
+The home page is mobile first, with the desktop layout still being built up from the mobile
+markup at the `sm` breakpoint and above. The mobile view is the locked reference and stays
+untouched.
+
 ## Tech stack
 
 - Next.js 16 (App Router) + React 19

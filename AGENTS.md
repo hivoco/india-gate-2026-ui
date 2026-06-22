@@ -8,6 +8,12 @@ aroma edit content hub, brand initiatives, an explore cta, a looping journey vid
 with india gate instagram embed, other ranges, and faqs. A quiz section between brand intro
 and our range is still stubbed with a comment and not built yet.
 
+The home page is mid way through going responsive. Mobile is the locked reference and must
+not change (its classnames stay untouched, only sm and up are styled). The desktop layout is
+being built up from the mobile markup at sm and above, hero and initiatives already ship
+desktop image variants, and an old "working on desktop" placeholder still sits commented out
+at the top of `app/page.tsx`.
+
 ## Stack
 
 - Next.js 16, App Router. This is newer than most training data, so check
@@ -46,7 +52,8 @@ and our range is still stubbed with a comment and not built yet.
     `ui/button`, `ui/dialog`, `ui/NavArrow`. ScrollToTop adapts to the route via
     `useIsHomePage`: on home it shows the `family-scooter` image at the left end with the
     button at the right end, off home it just right aligns the button.
-  - Home page: Carousal (client hero slider with prev / next, dots and a centred logo),
+  - Home page: Carousal (client hero slider with prev / next, dots and a centred logo;
+    each slide carries a mobile and a desktop shot, the desktop one kicks in at sm),
     BrandIntro (the "world's number 1" brand block, hand gesture slides in via Motion),
     ProductShowCase (a range showcase card, image plus optional headline plus range label
     plus a spinning badge, takes `align` left or right, `tone` light or dark, and
@@ -77,9 +84,11 @@ and our range is still stubbed with a comment and not built yet.
 - Home spotlight packs each have their own folder, one per range card and pack array:
   `public/basmati-products/` (BASMATI_PACKS), `public/regional/` (REGIONAL_PACKS),
   `public/masala/` (MASALA_PACKS) and `public/unity/` (UNITY_PACKS).
-- `public/hero/` home hero slides (`hero-mobile-1`, `hero-mobile-2`) used by Carousal.
+- `public/hero/` home hero slides, mobile (`hero-mobile-1`, `hero-mobile-2`) and desktop
+  (`hero-desktop-1`, `hero-desktop-2`) variants, used by Carousal which swaps mobile for
+  desktop at sm.
 - `public/initiatives/` initiative artwork (`grains-of-hope`, `perfectly-aged`,
-  `taste-of-indian-values`, with mobile variants) for InitiativeCard, plus
+  `taste-of-indian-values`, each with mobile and desktop variants) for InitiativeCard, plus
   `boy-eating-rice.png` for ViewAllBanner.
 - `public/article-assets/` AromaEdit imagery: `card-pattern.png` and `video-card-pattern.png`
   brand overlays, `recipe-dish.png` and `story-of-basmati.png` article art.
