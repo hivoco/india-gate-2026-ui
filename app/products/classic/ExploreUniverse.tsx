@@ -1,82 +1,67 @@
-"use client";
-import Image from "next/image";
-import { useState } from "react";
-import { cn } from "../../lib/utils";
 import QuatrefoilPattern from "../../components/QuatrefoilPattern";
-import Coverflow from "../../components/Coverflow";
+import ProductShowCase from "../../components/ProductShowCase";
+import ProductSpotlight, {
+  type SpotlightItem,
+} from "../../components/ProductSpotlight";
 import SectionHeading from "./SectionHeading";
 
-type SubBrand = {
-  name: string;
-  image: string;
-};
+// the pack the spotlight opens focused on, dubar sits at index 1
+const INITIAL_FOCUS = 1;
 
-/** Ordered as shown on the carousel, the centre item is the featured pack. */
-const SUBBRANDS: SubBrand[] = [
+// the sub brand range, same shape as the home page packs so the showcase card
+// can open the shared spotlight and browse them on its own embla rail
+const SUBBRANDS: SpotlightItem[] = [
   {
-    name: "Mogra",
+    text: "Mogra",
+    subtext: "Broken Grain",
     image: "/ig-classic-assets/india-gate-subbrands/IG Mogra 1kg front.jpg",
   },
   {
-    name: "Dubar",
+    text: "Dubar",
+    subtext: "Long Grain",
     image: "/ig-classic-assets/india-gate-subbrands/IG Dubar 1kg front.jpg",
   },
   {
-    name: "Biryani",
+    text: "Biryani",
+    subtext: "Biryani Special",
     image: "/ig-classic-assets/india-gate-subbrands/IG-Biryani-1kg-front.jpg",
   },
   {
-    name: "Feast Rozzana",
+    text: "Feast Rozzana",
+    subtext: "Everyday Value",
     image: "/ig-classic-assets/india-gate-subbrands/IG FR 1kg front.jpg",
   },
   {
-    name: "Everyday",
+    text: "Everyday",
+    subtext: "Daily Premium",
     image: "/ig-classic-assets/india-gate-subbrands/IG Everyday 1kg front.jpg",
   },
 ];
 
 const ExploreUniverse = () => {
-  const [active, setActive] = useState(2);
-
   return (
     <section className="relative isolate overflow-hidden py-8 sm:py-12 ">
       <QuatrefoilPattern className="bottom-auto h-[25%] " />
       <QuatrefoilPattern className="top-auto h-[15%]" />
 
       <div className="relative z-10 mx-auto flex  sm:custom-container flex-col gap-4 sm:gap-8 ">
-        <SectionHeading className="px-6 sm:px-0 "  title="Explore the Universe of India Gate" />
-
-        {/* coverflow owns the motion, we just hand it the pack card and theme it. */}
-        <Coverflow
-          items={SUBBRANDS}
-          initialFocus={1}
-          autoplayMs={2000}
-          getKey={(brand) => brand.name}
-          onActiveChange={setActive}
-          arrowClassName="bg-primary text-white hover:bg-primary/90"
-          cardClassName="focus-visible:ring-secondary/70 "
-          renderCard={(brand, { featured }) => (
-            <div
-              className={cn(
-                "relative aspect-square w-full sm:w-auto overflow-hidden rounded-3xl bg-cream",
-                featured && "shadow-lg ring-1 ring-secondary/40",
-              )}
-            >
-              <Image
-                src={brand.image}
-                alt={`India Gate ${brand.name}`}
-                fill
-                loading="lazy"
-                sizes="(min-width: 640px) 13vw, 40vw"
-                className="object-cover"
-              />
-            </div>
-          )}
+        <SectionHeading
+          className="px-6 sm:px-0 "
+          title="Explore the Universe of India Gate"
         />
 
-        <h3 className="text-center font-display text-xl sm:text-2text-2xl sm:text-3xlxl uppercase tracking-wide text-primary">
-          {SUBBRANDS[active].name}
-        </h3>
+        {/* one showcase card opens the spotlight, which carousels the whole sub
+            brand range on its own embla rail. no second coverflow needed. */}
+        <ProductSpotlight items={SUBBRANDS} initialIndex={INITIAL_FOCUS}>
+          <ProductShowCase
+            image="/Basmati.png"
+            rangeLabel="India Gate Range"
+            badgeGif="/spin-badges/basmati.gif"
+            badgeText="Basmati"
+            align="right"
+            className="cursor-pointer"
+          />
+        </ProductSpotlight>
       </div>
     </section>
   );

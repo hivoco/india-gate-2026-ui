@@ -4,9 +4,7 @@ import localFont from "next/font/local";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-// import QuatrefoilPattern from "./components/QuatrefoilPattern";
 import "./globals.css";
-// import Faqs from "./components/Faqs";
 
 const overlock = Overlock({
   variable: "--font-overlock",
@@ -46,7 +44,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <Header />
         {children}
-        <ScrollToTop className="mr-4 mb-2 sm:mr-25 ml-auto" />
+        <ScrollToTop className=" mb-2 sm:mr-25 " />
         <Footer />
       </body>
     </html>

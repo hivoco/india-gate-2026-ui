@@ -1,6 +1,9 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
+import { cn } from "../lib/utils";
+import { useIsHomePage } from "../hooks/useIsHomePage";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -12,8 +15,17 @@ const NAV_LINKS = [
 ];
 
 const Header = () => {
+  const isHomePage = useIsHomePage();
+
+
+
   return (
-    <header className="flex items-center justify-between gap-6 custom-container pt-8 pb-4 lg:pt-10 lg:pb-5 w-full">
+    <header
+      className={cn(
+        "flex items-center justify-between gap-6 custom-container pt-8 pb-4 lg:pt-10 lg:pb-5 w-full",
+        isHomePage && "hidden sm:flex",
+      )}
+    >
       <Link href="/" aria-label="India Gate — home">
         <Image
           src="/ig-classic-assets/logo.png"

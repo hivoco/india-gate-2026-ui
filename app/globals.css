@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
   --background: #ffffff;
@@ -19,6 +20,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-overlock), Arial, Helvetica, sans-serif;
+  /* keep the side reveal animations from nudging out a horizontal scrollbar.
+     clip not hidden so we never make body a scroll container, that would break
+     position sticky later */
+  overflow-x: clip;
 }
 
 @utility custom-container {

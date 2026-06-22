@@ -98,7 +98,10 @@ const Footer = () => {
           </Link>
         </div>
 
-        <p className="mt-2 text-sm">© {year} KRBL All Rights Reserved</p>
+        {/* brownish backdrop so the copyright stays readable over the bg art */}
+        <p className="mt-2 inline-block rounded-full bg-primary/40 px-4 py-1.5 text-sm text-white  backdrop-blur-sm">
+          © {year} KRBL All Rights Reserved
+        </p>
       </div>
 
       {/* decorative band at the bottom-most edge, full width, behind content.

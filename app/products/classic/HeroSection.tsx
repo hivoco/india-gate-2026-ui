@@ -3,7 +3,7 @@ import Image from "next/image";
 import ProductGallery from "./ProductGallery";
 import BuyOptions from "./BuyOptions";
 import Link from "next/link";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { cn } from "@/app/lib/utils";
 // hero feature strip, uses the new standalone icon art instead of the gold variants
 const FEATURES = [
@@ -86,20 +86,18 @@ const RETAILERS: Retailer[] = [
   },
 ];
 
-export type pack = {
+export type Pack = {
   label: PackLabel;
   size: PackSize;
 };
 
-export type packs = pack[];
-
-const packs: packs = [
+const PACKS: Pack[] = [
   { label: "1KG", size: "small" },
   { label: "5KG", size: "large" },
 ];
 
 const HeroSection = () => {
-    const [selected, setSelected] = useState(packs[0].label);
+    const [selected, setSelected] = useState(PACKS[0].label);
 
   // stacked + centered through tablet, splits into two columns only at lg where
   // there's room. before lg the 2-col split cramps features + retailers
@@ -129,9 +127,9 @@ const HeroSection = () => {
         <Features />
 
         <BuyOptions
-          packs={packs}
+          packs={PACKS}
           selected={selected}
-          OnClick={(s) => setSelected(s)}
+          onSelect={(s) => setSelected(s)}
         />
 
         <Retailers pack={selected} />
@@ -184,12 +182,13 @@ const Retailers = ({ pack }: { pack: PackLabel }) => {
         )}
       >
         {RETAILERS.map((retailer, i) => (
-          <div key={retailer.name}>
+          <Fragment key={retailer.name}>
             <RetailerCard retailer={retailer} href={retailer.href[pack]} />
-            {i + 1 === RETAILERS.length / 2 && (
-              <div className="w-px self-stretch bg-primary/25"></div>
+            {/* divider splits the row in half, quick commerce on the left, marketplaces on the right */}
+            {i + 1 === Math.floor(RETAILERS.length / 2) && (
+              <div className="w-px self-stretch bg-primary/25" />
             )}
-          </div>
+          </Fragment>
         ))}
       </div>
     </div>

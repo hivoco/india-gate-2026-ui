@@ -1,8 +1,9 @@
 "use client";
-import { useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import QuatrefoilPattern from "../../components/QuatrefoilPattern";
 import NavArrow from "../../components/ui/NavArrow";
+import SectionHeading from "./SectionHeading";
 
 type Spec = {
   /** Path to the icon artwork in /ig-classic-assets/icons. */
@@ -25,7 +26,7 @@ const PRODUCTS: Product[] = [
     name: "Classic",
     image: "/ig-classic-assets/india-agte-classic-hero-section.jpg",
     alt: "India Gate Classic Pure Basmati Rice pack",
-    accent: "#672e1f",
+    accent: "var(--color-primary)",
     specs: [
       { icon: "/ig-classic-assets/icons/grain.png", label: "Grain", value: "Extra long" },
       { icon: "/ig-classic-assets/icons/aging.png", label: "Aging", value: "2 Years" },
@@ -63,6 +64,17 @@ const Range = () => {
     setAtEnd(scroller.scrollLeft >= maxScroll - 1);
   };
 
+  // sync on mount and when the row resizes, so the arrows do not go stale when
+  // the layout stops overflowing, eg a rotate or resize on mobile
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    syncArrows();
+    const observer = new ResizeObserver(syncArrows);
+    observer.observe(scroller);
+    return () => observer.disconnect();
+  }, []);
+
   // scroll the row by one card, its width plus the live flex gap, in either direction
   const handleScroll = (dir: "left" | "right") => {
     const scroller = scrollerRef.current;
@@ -82,20 +94,7 @@ const Range = () => {
       <QuatrefoilPattern className="top-auto h-[10%]" />
 
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col gap-10">
-        <header className="text-center">
-          <h2 className="font-display text-2xl text-primary sm:text-4xl">
-            The Gold Standard Range{" "}
-          </h2>
-
-          <Image
-            src="/ig-classic-assets/pattern-icon.png"
-            alt=""
-            width={262}
-            height={28}
-            loading="lazy"
-            className="mx-auto mt-4 block h-5 w-auto"
-          />
-        </header>
+        <SectionHeading title="The Gold Standard Range" />
 
         {/* left right nav for the mobile scroll row, ui only, both cards fit from md up */}
         <div className="relative">

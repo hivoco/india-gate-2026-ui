@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { cn } from "../../lib/utils";
-import { packs, PackLabel, PackSize } from "./HeroSection";
+import type { Pack, PackLabel, PackSize } from "./HeroSection";
 
 // bag size per pack, the 5kg sack reads bigger than the 1kg
 const BAG_WIDTH: Record<PackSize, string> = {
@@ -11,11 +11,11 @@ const BAG_WIDTH: Record<PackSize, string> = {
 const BuyOptions = ({
   packs,
   selected,
-  OnClick,
+  onSelect,
 }: {
-  packs: packs;
+  packs: Pack[];
   selected: PackLabel;
-  OnClick: (val: PackLabel) => void;
+  onSelect: (val: PackLabel) => void;
 }) => {
   return (
     <div className="flex flex-col gap-6 ">
@@ -28,7 +28,7 @@ const BuyOptions = ({
               <button
                 key={pack.label}
                 type="button"
-                onClick={() => OnClick(pack.label)}
+                onClick={() => onSelect(pack.label)}
                 className={cn("relative shrink-0", BAG_WIDTH[pack.size])}
               >
                 {/* rice sack art, brown filled when selected, grey when not */}
