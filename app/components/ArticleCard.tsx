@@ -21,7 +21,7 @@ const ArticleCard = ({ image, heading, text, time, className }: ArticleCardProps
   return (
     <article
       className={cn(
-        "relative overflow-hidden rounded-xl bg-primary/10 px-2 py-5  sm:w-2/3 sm:shrink-0  ",
+        "relative overflow-hidden rounded-xl bg-primary/10 px-2 py-5 sm:shrink-0  sm:w-3/5",
         className,
       )}
     >
@@ -45,7 +45,6 @@ const ArticleCard = ({ image, heading, text, time, className }: ArticleCardProps
             height={260}
             loading="lazy"
             className="size-30 rounded-full object-cover "
-
           />
         </div>
 
@@ -54,9 +53,7 @@ const ArticleCard = ({ image, heading, text, time, className }: ArticleCardProps
             {heading}
           </h3>
 
-          <p className="mt-3 text-base/5 text-primary ">
-            {text}
-          </p>
+          <p className="mt-3 text-base/5 text-primary ">{text}</p>
 
           <div className="mt-2 flex items-center gap-2 text-primary/30 ">
             <Clock className="size-3.5 sm:size-5" strokeWidth={1.75} />
@@ -84,18 +81,6 @@ const ArticleCard = ({ image, heading, text, time, className }: ArticleCardProps
           playsInline
           aria-label="Read more"
           className="ml-auto h-auto w-11 shrink-0 self-start sm:w-16"
-        /> */}
-
-        {/* swapped the spinning badge for the gif above
-        <SpinningBadge
-          text="Read more"
-          repeat={2}
-          separator="·"
-          size={44}
-          duration={12}
-          className="ml-auto shrink-0 self-start bg-primary/40 rounded-full"
-          textClassName="text-[9px] text-white "
-          iconClassName="size-1/3 text-white"
         /> */}
       </div>
     </article>

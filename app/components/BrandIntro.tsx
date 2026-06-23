@@ -8,7 +8,7 @@ const BrandIntro = () => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-background py-6 sm:py-7">
+    <section className="relative overflow-hidden bg-background py-6">
       <div className=" flex pl-6 sm:px-0">
         <div className="relative z-10 max-w-[80%] md:max-w-[80%] font-normal ">
           <h2 className="font-display text-3xl text-primary sm:text-4xl">

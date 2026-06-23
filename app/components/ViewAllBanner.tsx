@@ -22,13 +22,13 @@ const ViewAllBanner = () => {
         <QuatrefoilPattern className="inset-x-0 top-auto bottom-4 h-15 bg-repeat-x bg-bottom" />
 
         {/* maroon base strip following the rounded bottom corners */}
-        <div className="absolute inset-x-0 bottom-0 h-4 bg-primary" />
+        <div className="absolute inset-x-0 bottom-0 h-4 sm:h-8 bg-primary rounded-b-full" />
 
         {/* centered call to action */}
         <div className="relative flex min-h- items-center justify-center px-6 pb-16 ">
           <Button
             size="lg"
-            className="rounded-xl !px-12 py-6 text-base font-normal"
+            className="rounded-xl px-12! sm:px-15! py-6 text-base sm:text-xl/5 font-normal"
           >
             View All
             <ArrowRight />
@@ -37,7 +37,7 @@ const ViewAllBanner = () => {
 
         {/* mascot tucked into the bottom right, overlapping the maroon strip */}
         <motion.div
-          className="pointer-events-none absolute bottom-0 right-3 w-28 overflow-hidden sm:w-40"
+          className="pointer-events-none absolute bottom-0 right-3 sm:right-20 w-28 overflow-hidden sm:w-45"
           variants={{
             hidden: { x: "120%", opacity: 0 },
             show: { x: 0, opacity: 1 },

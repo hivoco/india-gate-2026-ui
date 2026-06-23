@@ -24,7 +24,12 @@ const SectionHeading = ({
   subtitleClassName?: string;
 }) => (
   <header className="text-center">
-    <h2 className={cn("font-display text-3xl text-primary sm:text-4xl", className)}>
+    <h2
+      className={cn(
+        "font-display text-3xl text-primary sm:text-[40px]",
+        className,
+      )}
+    >
       {title}
     </h2>
 
@@ -34,13 +39,16 @@ const SectionHeading = ({
       width={262}
       height={28}
       loading="lazy"
-      className={cn("mx-auto mt-2 block h-3 w-auto", imageClassName)}
+      className={cn(
+        "mx-auto mt-2 sm:mt-4 block h-3 sm:h-5 w-auto",
+        imageClassName,
+      )}
     />
 
     {subtitle && (
       <p
         className={cn(
-          "mx-auto mt-2 max-w-xl sm:max-w-none text-center text-sm/4 sm:text-lg/4.5 font-normal text-primary sm:mt-6 ",
+          "mx-auto mt-2 max-w-xl sm:max-w-none text-center text-sm/4 sm:text-lg/4.5 font-normal text-primary  ",
           subtitleClassName,
         )}
       >

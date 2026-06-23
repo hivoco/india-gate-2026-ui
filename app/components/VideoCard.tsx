@@ -35,7 +35,7 @@ const VideoCard = ({ url, title, thumbnail, className }: VideoCardProps) => {
   return (
     <article
       className={cn(
-        "relative overflow-hidden rounded-xl bg-primary/10 sm:w-[45%] sm:shrink-0 ",
+        "relative overflow-hidden rounded-xl bg-primary/10 sm:w-1/2 sm:shrink-0 ",
         className,
       )}
     >

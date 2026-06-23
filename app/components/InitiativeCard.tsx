@@ -21,10 +21,10 @@ interface InitiativeCardProps {
 
 // where the badge sits, centered right on the corner so it nests in the notch
 const cornerClasses: Record<IconCorner, string> = {
-  "top-left": "-top-1 left-2",
-  "top-right": "top-2 right-2",
-  "bottom-left": "bottom-0 left-0",
-  "bottom-right": "bottom-1 right-0",
+  "top-left": "-top-1 left-2 sm:-top-0 sm:left-2",
+  "top-right": "top-2 right-2 sm:top-4 sm:right-4",
+  "bottom-left": "bottom-0 left-0 sm:bottom-0 sm:left-0",
+  "bottom-right": "bottom-1 right-0 sm:bottom-2 sm:right-1",
 };
 
 const InitiativeCard = ({
@@ -64,11 +64,11 @@ const InitiativeCard = ({
         type="button"
         aria-label={`Open ${alt}`}
         className={cn(
-          "absolute grid size-9 place-items-center rounded-full bg-primary text-white transition-transform hover:scale-105 sm:size-16",
+          "absolute grid size-9 place-items-center rounded-full bg-primary text-white transition-transform hover:scale-105 sm:size-14",
           cornerClasses[iconPosition],
         )}
       >
-        <ArrowUpRight  size={24} strokeWidth={2.5} />
+        <ArrowUpRight  className="size-6 sm:size-9" strokeWidth={2.5} />
       </button>
     </div>
   );

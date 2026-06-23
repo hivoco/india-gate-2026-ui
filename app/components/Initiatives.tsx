@@ -2,17 +2,17 @@ import SectionHeading from "@/app/products/classic/SectionHeading";
 import InitiativeCard from "./InitiativeCard";
 const Initiatives = () => {
   return (
-    <section className="custom-container py-6 ">
+    <section className="py-6 px-6 sm:px-0 sm:py-10">
       <SectionHeading title="Our Initiatives" />
 
-      <div className="mt-8 grid grid-cols-5 gap-y-4 gap-x-2.5 sm:mt-12 sm:grid-cols-10">
+      <div className="mt-8 grid grid-cols-5 gap-y-4 gap-x-2.5 sm:gap-x-6 sm:mt-6 sm:grid-cols-10">
         {/* grains of hope, full width on both */}
         <InitiativeCard
           image="/initiatives/grains-of-hope.png"
           desktopImage="/initiatives/grains-of-hope-desktop.png"
           alt="India Gate Grains of Hope initiative"
           iconPosition="top-right"
-          className="col-span-5 aspect-square sm:col-span-10 sm:aspect-972/444"
+          className="col-span-5 aspect-square sm:col-span-10 sm:aspect-[2.19]"
         />
 
         {/* 3/5 on mobile, half on desktop */}
@@ -21,7 +21,7 @@ const Initiatives = () => {
           desktopImage="/initiatives/perfectly-aged-desktop.png"
           alt="The perfectly aged Classic"
           iconPosition="bottom-right"
-          className="col-span-3 aspect-square sm:col-span-5 sm:aspect-474/346"
+          className="col-span-3 aspect-square sm:col-span-5 sm:aspect-[1.37]"
         />
 
         {/* 2/5 on mobile, half on desktop */}
@@ -30,7 +30,7 @@ const Initiatives = () => {
           desktopImage="/initiatives/taste-of-indian-values-desktop.png"
           alt="Let's share the taste of Indian values"
           iconPosition="top-left"
-          className="col-span-2 h-full sm:col-span-5 sm:h-auto sm:aspect-474/346"
+          className="col-span-2 h-full sm:col-span-5 sm:h-auto sm:aspect-[1.37]"
         />
       </div>
     </section>

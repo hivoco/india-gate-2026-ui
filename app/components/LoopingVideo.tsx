@@ -30,9 +30,9 @@ const LoopingVideo = ({
   children,
 }: LoopingVideoProps) => {
   return (
-    <div className={cn("relative isolate", className)}>
+    <div className={cn("relative isolate sm:rounded-xl sm:overflow-hidden", className)}>
       <video
-        className={cn("h-full w-full object-cover", videoClassName)}
+        className={cn("h-full w-full  object-cover", videoClassName)}
         poster={poster ?? `${src}-poster.jpg`}
         autoPlay
         loop
@@ -50,8 +50,9 @@ const LoopingVideo = ({
           {/* dark fade sits above the video so the heading stays readable */}
           <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-b from-transparent via-black/70 via-[87.02%] to-black/70" />
 
+
           {/* heading sits above the video, bottom left like the brand still */}
-          <h2 className="absolute bottom-3 left-5 z-10 font-display text-3xl text-white drop-shadow-md sm:bottom-10 sm:left-12 sm:text-5xl">
+          <h2 className="absolute bottom-3  left-5 z-10 font-display text-3xl text-white drop-shadow-md sm:bottom-10 sm:left-20 sm:text-5xl">
             {heading}
           </h2>
         </>

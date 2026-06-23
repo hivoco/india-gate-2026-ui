@@ -303,74 +303,74 @@ const Home = () => {
 
       {/* mobile stays untouched, just hidden once we hit sm */}
       <div className="smhidden  sm:custom-container">
-      <Carousal />
+        <Carousal />
 
-      <Reveal>
-        <BrandIntro />
-      </Reveal>
-      {/* quiz */}
-
-      <section className="py-6 sm:py-10 border">
         <Reveal>
-          <SectionHeading title="Our Range" />
+          <BrandIntro />
         </Reveal>
+        {/* quiz */}
 
-        <div className="mt-8 space-y-3 overflow-hidden flex flex-col sm:flex-row sm:justify-center gap-5 ">
-          {/* cards slide in from the side they sit on, basmati left, regional right */}
-          <Reveal direction="left">
-            {/* card opens the spotlight dialog, centred on Classic */}
-            <ProductSpotlight items={BASMATI_PACKS}>
-              <ProductShowCase
-                image="/Basmati.png"
-                headline="Aged to perfection. Crafted for every plate."
-                rangeLabel="Basmati Range"
-                badgeGif="/spin-badges/basmati.gif"
-                badgeText="BASMATI"
-                className="cursor-pointer "
-              />
-            </ProductSpotlight>
+        <section className="py-6 sm:py-10">
+          <Reveal>
+            <SectionHeading title="Our Range" />
           </Reveal>
 
-          <Reveal direction="right">
-            <ProductSpotlight items={REGIONAL_PACKS}>
-              <ProductShowCase
-                image="/Regional.png"
-                headline="The taste your region calls home."
-                rangeLabel="Regional Range"
-                badgeGif="/spin-badges/regional.gif"
-                badgeText="REGIONAL"
-                align="right"
-                className="cursor-pointer"
-              />
-            </ProductSpotlight>
-          </Reveal>
-        </div>
-      </section>
+          <div className="mt-8 space-y-3 overflow-hidden flex flex-col sm:flex-row sm:justify-center gap-5 ">
+            {/* cards slide in from the side they sit on, basmati left, regional right */}
+            <Reveal direction="left">
+              {/* card opens the spotlight dialog, centred on Classic */}
+              <ProductSpotlight items={BASMATI_PACKS}>
+                <ProductShowCase
+                  image="/Basmati.png"
+                  headline="Aged to perfection. Crafted for every plate."
+                  rangeLabel="Basmati Range"
+                  badgeGif="/spin-badges/basmati.gif"
+                  badgeText="BASMATI"
+                  className="cursor-pointer "
+                />
+              </ProductSpotlight>
+            </Reveal>
 
-      <div className="py-6  border">
-        <Reveal>
+            <Reveal direction="right">
+              <ProductSpotlight items={REGIONAL_PACKS}>
+                <ProductShowCase
+                  image="/Regional.png"
+                  headline="The taste your region calls home."
+                  rangeLabel="Regional Range"
+                  badgeGif="/spin-badges/regional.gif"
+                  badgeText="REGIONAL"
+                  align="right"
+                  className="cursor-pointer"
+                />
+              </ProductSpotlight>
+            </Reveal>
+          </div>
+        </section>
+      </div>
+
+      <div className="py-6 sm:py-10 ">
+        <Reveal className="custom-container">
           <AromaEdit />
         </Reveal>
-
-        <div className="relative isolate flex justify-center bg-primary py-4">
+        <div className="relative isolate flex justify-center bg-primary py-4 ">
           <QuatrefoilPattern image="/quatrefoil-pattern.png" />
 
           <Button
             size="lg"
-            className="rounded-lg bg-white px-10 font-normal py-3 text-sm text-primary  hover:bg-white/90 "
+            className="rounded-lg bg-white px-12! font-normal py-3 text-sm sm:text-base/4 text-primary  hover:bg-white/90 "
           >
             Explore Now
             <ArrowRight size={10} />
           </Button>
         </div>
 
-        <Reveal>
+        <Reveal className="sm:custom-container">
           <Initiatives />
         </Reveal>
 
-        <ViewAllBanner />
+        <ViewAllBanner /> {/* take full width  */}
 
-        <section className="mt-4">
+        <section className="mt-4 sm:mt-5 sm:custom-container">
           <Reveal>
             <LoopingVideo
               src="/rice-journey"
@@ -381,17 +381,17 @@ const Home = () => {
         </section>
       </div>
 
-      <Reveal>
+      <Reveal className="sm:custom-container">
         <MadeWithIndiaGate url="https://www.instagram.com/indiagatefoods/reel/DYERSO3M15D/" />
       </Reveal>
 
-      <section className="py-6">
+      <section className="py-6 sm:py-10">
         <Reveal>
           <SectionHeading title="Other Ranges" />
         </Reveal>
 
-        <div className="mt-8 space-y-3 sm:mt-12 overflow-hidden flex  flex-col sm:flex-row">
-          <Reveal direction="left">
+        <div className="mt-8 sm:mt-6 gap-3 overflow-hidden flex flex-col sm:flex-row sm:justify-center sm:gap-5 ">
+          <Reveal className="" direction="left">
             <ProductSpotlight items={UNITY_PACKS} imageScale="scale-[0.8]">
               <ProductShowCase
                 image="/Unity.png"
@@ -406,7 +406,7 @@ const Home = () => {
             </ProductSpotlight>
           </Reveal>
 
-          <Reveal direction="right">
+          <Reveal className="" direction="right">
             {/* masala image already has the headline baked in */}
             <ProductSpotlight items={MASALA_PACKS} imageScale="scale-[1.2]">
               <ProductShowCase
@@ -426,7 +426,8 @@ const Home = () => {
       </section>
 
       <Reveal>
-        <div className="flex flex-col items-center gap-8 pb-6">
+        <div className="flex flex-col items-center gap-8 pb-6 ">
+          {/* gap might be chnaged  */}
           <Faqs faqs={FAQS} />
 
           <Button
@@ -441,7 +442,7 @@ const Home = () => {
           </Button>
         </div>
       </Reveal>
-      </div>
+      {/* </div> */}
     </>
   );
 };

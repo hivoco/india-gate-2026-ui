@@ -43,3 +43,6 @@ next-env.d.ts
 # local notes
 to-do-list.md
 LEARNMode.md
+
+# trash, deleted files kept around locally
+/trash

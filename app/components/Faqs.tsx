@@ -5,6 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "../lib/utils";
 import QuatrefoilPattern from "./QuatrefoilPattern";
 import SectionHeading from "../products/classic/SectionHeading";
+import { useIsHomePage } from "../hooks/useIsHomePage";
 
 export type Faq = {
   question: string;
@@ -13,14 +14,17 @@ export type Faq = {
 
 const Faqs = ({ faqs }: { faqs: Faq[] }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const isHomePage = useIsHomePage();
 
   const toggle = (index: number) =>
     setOpenIndex((current) => (current === index ? null : index));
 
   return (
     <section className="relative isolate overflow-hidden py-6 sm:py-12 ">
+      {/* // in rest of the component is sm py-10 either they will change in future or this will idk */}
+
       {/* Faint quatrefoil brand bands, top and bottom. */}
-      <QuatrefoilPattern className="bottom-auto h-[15%] " />
+      <QuatrefoilPattern className="bottom-auto h-[15%] sm:h-[10%]" />
       {/* <QuatrefoilPattern className="top-auto h-[15%] " /> */}
 
       <div className="relative z-10 mx-auto flex custom-container flex-col gap-10">

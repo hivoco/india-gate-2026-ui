@@ -27,9 +27,9 @@ const ScrollToTop = ({
   return (
     <section
       className={cn(
-        "relative isolate flex items-center gap-4 bg-white  sm:py-16",
+        "relative isolate flex items-center gap-4 bg-white",
         // image pins left and button pins right on home, otherwise the button hugs the right
-        isHome ? "justify-between pr-4 pt-12" : "justify-end px-4 py-12 overflow-hidden",
+        isHome ? "justify-between pr-4 pt-12 pb-0" : "justify-end px-4 py-12 overflow-hidden",
       )}
     >
       <QuatrefoilPattern className=" sm:bottom-auto  sm:h-[75%]" />
@@ -48,7 +48,7 @@ const ScrollToTop = ({
             width={192}
             height={138}
             loading="lazy"
-            className=" h-auto w-48"
+            className=" h-auto w-48 sm:w-75 sm:ml-12"
           />
         </motion.div>
       )}
@@ -83,7 +83,7 @@ const ScrollToTop = ({
         width={1641}
         height={67}
         loading="lazy"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-auto w-full"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-auto w-full sm:hidden"
       />
     </section>
   );
