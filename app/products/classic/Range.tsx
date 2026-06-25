@@ -5,14 +5,14 @@ import QuatrefoilPattern from "../../components/QuatrefoilPattern";
 import NavArrow from "../../components/ui/NavArrow";
 import SectionHeading from "./SectionHeading";
 
-type Spec = {
+export type Spec = {
   /** Path to the icon artwork in /ig-classic-assets/icons. */
   icon: string;
   label: string;
   value: string;
 };
 
-type Product = {
+export type Product = {
   name: string;
   image: string;
   alt: string;
@@ -21,35 +21,42 @@ type Product = {
   specs: Spec[];
 };
 
-const PRODUCTS: Product[] = [
-  {
-    name: "Classic",
-    image: "/ig-classic-assets/india-agte-classic-hero-section.jpg",
-    alt: "India Gate Classic Pure Basmati Rice pack",
-    accent: "var(--color-primary)",
-    specs: [
-      { icon: "/ig-classic-assets/icons/grain.png", label: "Grain", value: "Extra long" },
-      { icon: "/ig-classic-assets/icons/aging.png", label: "Aging", value: "2 Years" },
-      { icon: "/ig-classic-assets/icons/best-for.png", label: "Best for", value: "All celebrations" },
-      { icon: "/ig-classic-assets/icons/elongation.png", label: "Elongation", value: "2.5X" },
-    ],
-  },
-  {
-    name: "Biryani Rice",
-    image: "/ig-classic-assets/biryani-rice.png",
-    alt: "India Gate Gold Standard Biryani Basmati Rice pack",
-    accent: "#1B4D4B",
-    
-    specs: [
-      { icon: "/ig-classic-assets/icons/grain.png", label: "Grain", value: "Long" },
-      { icon: "/ig-classic-assets/icons/aging.png", label: "Aging", value: "Extended" },
-      { icon: "/ig-classic-assets/icons/best-for.png", label: "Best for", value: "Biryani only" },
-      { icon: "/ig-classic-assets/icons/elongation.png", label: "Elongation", value: "2X" },
-    ],
-  },
-];
+// kept here for reference. this is what the classic page used to hardcode, each
+// page now owns its own array and passes it down as the `products` prop
+// const PRODUCTS: Product[] = [
+//   {
+//     name: "Classic",
+//     image: "/ig-classic-assets/india-agte-classic-hero-section.jpg",
+//     alt: "India Gate Classic Pure Basmati Rice pack",
+//     accent: "var(--color-primary)",
+//     specs: [
+//       { icon: "/ig-classic-assets/icons/grain.png", label: "Grain", value: "Extra long" },
+//       { icon: "/ig-classic-assets/icons/aging.png", label: "Aging", value: "2 Years" },
+//       { icon: "/ig-classic-assets/icons/best-for.png", label: "Best for", value: "All celebrations" },
+//       { icon: "/ig-classic-assets/icons/elongation.png", label: "Elongation", value: "2.5X" },
+//     ],
+//   },
+//   {
+//     name: "Biryani Rice",
+//     image: "/ig-classic-assets/biryani-rice.png",
+//     alt: "India Gate Gold Standard Biryani Basmati Rice pack",
+//     accent: "#1B4D4B",
+//     specs: [
+//       { icon: "/ig-classic-assets/icons/grain.png", label: "Grain", value: "Long" },
+//       { icon: "/ig-classic-assets/icons/aging.png", label: "Aging", value: "Extended" },
+//       { icon: "/ig-classic-assets/icons/best-for.png", label: "Best for", value: "Biryani only" },
+//       { icon: "/ig-classic-assets/icons/elongation.png", label: "Elongation", value: "2X" },
+//     ],
+//   },
+// ];
 
-const Range = () => {
+const Range = ({
+  title,
+  products,
+}: {
+  title: string;
+  products: Product[];
+}) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
   // grey out the arrow that can't move further, left at the start, right at the end
   const [atStart, setAtStart] = useState(true);
@@ -88,13 +95,16 @@ const Range = () => {
     });
   };
 
+  // either we need to deelet unncessary cdoe or export this code out make it geneirc in future 
+
+
   return (
-    <section className="relative isolate  overflow-hidden sm:py-12">
+    <section className="relative isolate  overflow-hidden  sm:py-12   ">
       <QuatrefoilPattern className="bottom-auto h-[25%]" />
       <QuatrefoilPattern className="top-auto h-[10%]" />
 
-      <div className="relative z-10 mx-auto flex max-w-3xl flex-col gap-10">
-        <SectionHeading title="The Gold Standard Range" />
+      <div className="relative z-10 mx-auto flex  flex-col gap-10 sm:custom-container">
+        <SectionHeading title={title} className="px-6" />
 
         {/* left right nav for the mobile scroll row, ui only, both cards fit from md up */}
         <div className="relative">
@@ -115,9 +125,9 @@ const Range = () => {
           <div
             ref={scrollerRef}
             onScroll={syncArrows}
-            className="flex gap-6 overflow-x-auto px-6 sm:justify-center sm:gap-8 sm:px-0"
+            className="flex gap-6 overflow-x-auto px-6 sm:justify-center-safe sm:gap-4 sm:px-0 "
           >
-            {PRODUCTS.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.name} product={product} />
             ))}
           </div>

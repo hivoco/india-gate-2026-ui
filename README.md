@@ -1,8 +1,10 @@
 # India Gate
 
 Marketing and product site for India Gate Basmati Rice. UI only for now, no backend or
-business logic. Two pages are substantial: the Classic product page at `/products/classic`
-and the home page. The home page runs a hero carousel, brand intro, our range (with a
+business logic. The substantial work is the home page and the product pages. The Classic
+product page at `/products/classic` is the reference build, its sections are prop driven and
+a second product page at `/products/dubar-basmati-rice` reuses them with its own data. The
+home page runs a hero carousel, brand intro, our range (with a
 product spotlight dialog), the aroma edit content hub, brand initiatives, an explore cta, a
 looping journey video, a made with india gate instagram embed, other ranges and faqs. A
 quiz section is still stubbed and not built yet.
@@ -51,24 +53,30 @@ app/
   layout.tsx              root layout, fonts, Header / ScrollToTop / Footer
   page.tsx                home: Carousal, BrandIntro, Our Range, AromaEdit, Initiatives,
                           ViewAllBanner, LoopingVideo, MadeWithIndiaGate, Other Ranges, Faqs
+  error.tsx               route level error boundary (retry)
+  global-error.tsx        root layout error boundary (own html/body, inline styles)
+  not-found.tsx           app router 404
   globals.css             tailwind + tw-animate-css imports, theme tokens, custom-container
-  components/             shared ui: Header, Footer, Faqs, Coverflow, ScrollToTop,
+  components/             shared ui: Header, Footer, Faqs, Breadcrumb, Coverflow, ScrollToTop,
                           QuatrefoilPattern, Reveal, ui/button, ui/dialog, ui/NavArrow.
                           home page: Carousal, BrandIntro, ProductShowCase, ProductSpotlight,
                           SpinningBadge, AromaEdit, ArticleCard, VideoCard, Initiatives,
                           InitiativeCard, ViewAllBanner, LoopingVideo, MadeWithIndiaGate
   lib/utils.ts            cn() class merge helper
-  hooks/                  shared client hooks (useIsHomePage wraps the "/" pathname check)
+  hooks/                  shared client hooks (useIsHomePage wraps the "/" pathname check,
+                          useMediaQuery tracks a breakpoint match)
   fonts/                  self hosted OptimusPrinceps display font (400 + 600)
-  products/classic/       classic product page, split into section components
-                          (HeroSection, ProductGallery, BuyOptions, Range, Body,
-                          Flagship, PairsWellWith, ExploreUniverse, with SectionHeading
-                          and BagIcon helpers)
+  products/classic/       classic product page, prop driven section components owned here
+                          (HeroSection with ProductGallery, Features, BuyOptions, Retailers;
+                          Range, Flagship, PairsWellWith with DishCard, ExploreUniverse,
+                          with SectionHeading and BagIcon helpers). page.tsx owns the data
+  products/dubar-basmati-rice/  second product page, reuses the classic sections
 scripts/
   optimize-images.mjs     sharp based image compressor for public/ (npm run optimize:images)
 public/
   ig-classic-assets/      classic page imagery; subfolders icons, 1kg, 5kg, dishes,
                           india-gate-subbrands, rice-sacks
+  IG Dubar/               staged dubar art (1Kg, 5Kg), not wired into the dubar page yet
   basmati-products/       home spotlight packs, one folder per range card and pack array:
   regional/               basmati-products (BASMATI_PACKS), regional (REGIONAL_PACKS),
   masala/                 masala (MASALA_PACKS), unity (UNITY_PACKS)
@@ -95,8 +103,9 @@ public/
   below the fold uses `loading="lazy"`.
 - Animation: top level sections are wrapped in the shared `Reveal` component so they fade
   up the first time they scroll into view. It runs once and respects reduced motion.
-- Attribute icons in `ig-classic-assets/icons` are flat PNGs with two pre coloured
-  variants. The `*-gold.png` ones are used in the golden hero feature strip, the plain
-  black ones everywhere else (eg the Range spec rows).
+- Attribute icons in `ig-classic-assets/icons` are flat PNGs with the colour baked in. The
+  hero feature strip uses the standalone `grains` / `rice` / `aged` icons, the plain black
+  ones (`grain`, `aging`, `best-for`, `elongation`) feed the Range spec rows. The older
+  `*-gold.png` variants are unused leftovers now.
 - This is a Next.js 16 project. APIs and conventions can differ from older versions, so
   check the docs before reaching for something from memory.

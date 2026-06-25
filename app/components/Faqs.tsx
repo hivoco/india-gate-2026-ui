@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "../lib/utils";
 import QuatrefoilPattern from "./QuatrefoilPattern";
 import SectionHeading from "../products/classic/SectionHeading";
-import { useIsHomePage } from "../hooks/useIsHomePage";
+// import { useIsHomePage } from "../hooks/useIsHomePage";
 
 export type Faq = {
   question: string;
@@ -14,7 +14,7 @@ export type Faq = {
 
 const Faqs = ({ faqs }: { faqs: Faq[] }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const isHomePage = useIsHomePage();
+  // const isHomePage = useIsHomePage();
 
   const toggle = (index: number) =>
     setOpenIndex((current) => (current === index ? null : index));

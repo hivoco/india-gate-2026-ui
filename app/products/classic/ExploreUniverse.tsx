@@ -1,44 +1,46 @@
+"use client";
+import Image from "next/image";
+import { useState } from "react";
+import { cn } from "../../lib/utils";
 import QuatrefoilPattern from "../../components/QuatrefoilPattern";
-import ProductShowCase from "../../components/ProductShowCase";
-import ProductSpotlight, {
-  type SpotlightItem,
-} from "../../components/ProductSpotlight";
+import Coverflow from "../../components/Coverflow";
 import SectionHeading from "./SectionHeading";
 
-// the pack the spotlight opens focused on, dubar sits at index 1
-const INITIAL_FOCUS = 1;
+type SubBrand = {
+  name: string;
+  image: string;
+};
 
-// the sub brand range, same shape as the home page packs so the showcase card
-// can open the shared spotlight and browse them on its own embla rail
-const SUBBRANDS: SpotlightItem[] = [
+/** Ordered as shown on the carousel, the centre item is the featured pack. */
+const SUBBRANDS: SubBrand[] = [
   {
-    text: "Mogra",
-    subtext: "Broken Grain",
-    image: "/ig-classic-assets/india-gate-subbrands/IG Mogra 1kg front.jpg",
+    name: "Mogra",
+    image: "/ig-classic-assets/india-gate-subbrands/ig-mogra-1kg-front.jpg",
   },
   {
-    text: "Dubar",
-    subtext: "Long Grain",
-    image: "/ig-classic-assets/india-gate-subbrands/IG Dubar 1kg front.jpg",
+    name: "Dubar",
+    image: "/ig-classic-assets/india-gate-subbrands/ig-dubar-1kg-front.jpg",
   },
   {
-    text: "Biryani",
-    subtext: "Biryani Special",
-    image: "/ig-classic-assets/india-gate-subbrands/IG-Biryani-1kg-front.jpg",
+    name: "Biryani",
+    image: "/ig-classic-assets/india-gate-subbrands/ig-biryani-1kg-front.jpg",
   },
   {
-    text: "Feast Rozzana",
-    subtext: "Everyday Value",
-    image: "/ig-classic-assets/india-gate-subbrands/IG FR 1kg front.jpg",
+    name: "Feast Rozzana",
+    image: "/ig-classic-assets/india-gate-subbrands/ig-feast-rozzana-1kg-front.jpg",
   },
   {
-    text: "Everyday",
-    subtext: "Daily Premium",
-    image: "/ig-classic-assets/india-gate-subbrands/IG Everyday 1kg front.jpg",
+    name: "Everyday",
+    image: "/ig-classic-assets/india-gate-subbrands/ig-everyday-1kg-front.jpg",
   },
 ];
 
-const ExploreUniverse = () => {
+
+
+// for now keep this component but this needs to be later on updated idk when
+const ExploreUniverse = ({ currrentProduct }: { currrentProduct?: string }) => {
+  const [active, setActive] = useState(2);
+
   return (
     <section className="relative isolate overflow-hidden py-8 sm:py-12 ">
       <QuatrefoilPattern className="bottom-auto h-[25%] " />
@@ -50,18 +52,47 @@ const ExploreUniverse = () => {
           title="Explore the Universe of India Gate"
         />
 
-        {/* one showcase card opens the spotlight, which carousels the whole sub
-            brand range on its own embla rail. no second coverflow needed. */}
-        <ProductSpotlight items={SUBBRANDS} initialIndex={INITIAL_FOCUS}>
-          <ProductShowCase
-            image="/Basmati.png"
-            rangeLabel="India Gate Range"
-            badgeGif="/spin-badges/basmati.gif"
-            badgeText="Basmati"
-            align="right"
-            className="cursor-pointer"
-          />
-        </ProductSpotlight>
+        {/* coverflow owns the motion, we just hand it the pack card and theme it. */}
+        <Coverflow
+          items={
+            // removes current product from array 
+            currrentProduct
+              ? SUBBRANDS.filter(
+                  (s) =>
+                    !s.name
+                      .toLowerCase()
+                      .includes(currrentProduct.toLowerCase()),
+                )
+              : SUBBRANDS
+          }
+          initialFocus={1}
+          autoplayMs={2000}
+          getKey={(brand) => brand.name}
+          onActiveChange={setActive}
+          arrowClassName="bg-primary text-white hover:bg-primary/90"
+          cardClassName="focus-visible:ring-secondary/70 "
+          renderCard={(brand, { featured }) => (
+            <div
+              className={cn(
+                "relative aspect-square w-full sm:w-auto overflow-hidden rounded-3xl bg-cream",
+                featured && "shadow-lg ring-1 ring-secondary/40",
+              )}
+            >
+              <Image
+                src={brand.image}
+                alt={`India Gate ${brand.name}`}
+                fill
+                loading="lazy"
+                sizes="(min-width: 640px) 13vw, 40vw"
+                className="object-cover"
+              />
+            </div>
+          )}
+        />
+
+        <h3 className="text-center font-display text-2xl sm:text-3xl uppercase tracking-wide text-primary">
+          {SUBBRANDS[active].name}
+        </h3>
       </div>
     </section>
   );

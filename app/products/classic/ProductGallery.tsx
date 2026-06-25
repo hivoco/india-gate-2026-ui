@@ -5,92 +5,22 @@ import NavArrow from "../../components/ui/NavArrow";
 import { cn } from "../../lib/utils";
 import type { PackLabel } from "./HeroSection";
 
-type Thumb = {
+export type Thumb = {
   id: string;
   src: string;
   alt: string;
 };
 
-// one full list per pack, just read GALLERY[currentPack] and map over it
-const GALLERY: Record<PackLabel, Thumb[]> = {
-  "1KG": [
-    {
-      id: "1kg-front",
-      src: "/ig-classic-assets/1kg/pack-front.jpg",
-      alt: "India Gate Classic Basmati Rice 1kg, pack front",
-    },
-    {
-      id: "1kg-back",
-      src: "/ig-classic-assets/1kg/pack-back.jpg",
-      alt: "Classic Basmati Rice 1kg, pack back",
-    },
-    {
-      id: "1kg-product",
-      src: "/ig-classic-assets/1kg/product.jpg",
-      alt: "India Gate Classic Basmati Rice 1kg",
-    },
-    {
-      id: "1kg-story",
-      src: "/ig-classic-assets/story.jpg",
-      alt: "Gold standard Classic, for the perfectionist in you",
-    },
-    {
-      id: "1kg-nutrition",
-      src: "/ig-classic-assets/nutrition.jpg",
-      alt: "Nutritional information",
-    },
-    {
-      id: "1kg-manufacturer",
-      src: "/ig-classic-assets/manufacturer.jpg",
-      alt: "Manufactured & marketed by KRBL Limited",
-    },
-    {
-      id: "1kg-certifications",
-      src: "/ig-classic-assets/certifications.jpg",
-      alt: "GMO free, FSSAI licence and barcode",
-    },
-  ],
-  "5KG": [
-    {
-      id: "5kg-front",
-      src: "/ig-classic-assets/5kg/pack-front.jpg",
-      alt: "India Gate Classic Basmati Rice 5kg, pack front",
-    },
-    {
-      id: "5kg-back",
-      src: "/ig-classic-assets/5kg/pack-back.jpg",
-      alt: "Classic Basmati Rice 5kg, pack back",
-    },
-    {
-      id: "5kg-product",
-      src: "/ig-classic-assets/5kg/product.jpg",
-      alt: "India Gate Classic Basmati Rice 5kg",
-    },
-    {
-      id: "5kg-story",
-      src: "/ig-classic-assets/story.jpg",
-      alt: "Gold standard Classic, for the perfectionist in you",
-    },
-    {
-      id: "5kg-nutrition",
-      src: "/ig-classic-assets/nutrition.jpg",
-      alt: "Nutritional information",
-    },
-    {
-      id: "5kg-manufacturer",
-      src: "/ig-classic-assets/manufacturer.jpg",
-      alt: "Manufactured & marketed by KRBL Limited",
-    },
-    {
-      id: "5kg-certifications",
-      src: "/ig-classic-assets/certifications.jpg",
-      alt: "GMO free, FSSAI licence and barcode",
-    },
-  ],
-};
-
-const ProductGallery = ({ currentPack }: { currentPack: PackLabel }) => {
-  const thumbs = GALLERY[currentPack];
+//this comp is  left on the desktop
+const ProductGallery = ({
+  currentPack,
+  gallery,
+}: {
+  currentPack: PackLabel;
+  // one full list per pack, just read gallery[currentPack] and map over it
+  gallery: Record<PackLabel, Thumb[]>;
+}) => {
+  const thumbs = gallery[currentPack];
   const [selectedIndex, setSelectedIndex] = useState(0);
   // gallery toggle md
 
@@ -109,7 +39,7 @@ const ProductGallery = ({ currentPack }: { currentPack: PackLabel }) => {
     });
 
   return (
-    <div className="flex flex-col gap-4 ">
+    <div className="flex flex-col gap-4 sm:justify-between  sm:h-full">
       {/* mobile only title, the desktop one lives in HeroSection's right column */}
       <header className="flex flex-col gap-1.5 sm:hidden mx-auto">
         <h1 className="font-display text-3xl leading-tight text-primary font-semibold">
@@ -127,9 +57,20 @@ const ProductGallery = ({ currentPack }: { currentPack: PackLabel }) => {
           className="mx-auto mt-4 block h-5 w-auto"
         />
       </header>
+
       {/* Main viewer */}
       <div className="relative aspect-square overflow-hidden rounded-2xl">
         {/* nav arrows show on mobile only, the thumbnail strip takes over from sm up */}
+
+        <Image
+          src={selected.src}
+          alt={selected.alt}
+          fill
+          sizes="(min-width: 1024px) 40vw, 90vw"
+          priority
+          className="object-contain mix-blend-multiply"
+        />
+
         <NavArrow
           direction="left"
           size="sm"
@@ -145,14 +86,6 @@ const ProductGallery = ({ currentPack }: { currentPack: PackLabel }) => {
           disabled={selectedIndex === thumbs.length - 1}
           onClick={() => handleDirection("right")}
           className="md:hidden"
-        />
-        <Image
-          src={selected.src}
-          alt={selected.alt}
-          fill
-          sizes="(min-width: 1024px) 40vw, 90vw"
-          priority
-          className="object-contain mix-blend-multiply"
         />
       </div>
 

@@ -1,8 +1,11 @@
 # India Gate, codebase notes for agents
 
 Marketing and product site for India Gate Basmati Rice. UI work only, no business logic.
-Build pages and components, leave data and backend wiring out unless asked. Two pages are
-substantial now: the Classic product page at `/products/classic` and the home page. The
+Build pages and components, leave data and backend wiring out unless asked. The substantial
+work lives in the home page and the product pages. The Classic product page at
+`/products/classic` is the reference build, its section components are now prop driven and a
+second product page at `/products/dubar-basmati-rice` reuses them by importing from
+`../classic` and feeding its own data arrays. The
 home page runs hero carousel, brand intro, our range (with a product spotlight dialog), the
 aroma edit content hub, brand initiatives, an explore cta, a looping journey video, a made
 with india gate instagram embed, other ranges, and faqs. A quiz section between brand intro
@@ -35,6 +38,11 @@ at the top of `app/page.tsx`.
 
 - `app/layout.tsx` root layout, registers the fonts (Overlock + OptimusPrinceps) and
   renders Header, the page, ScrollToTop and Footer.
+- `app/error.tsx`, `app/global-error.tsx`, `app/not-found.tsx` the app router ux fallbacks.
+  `error` is the route level boundary (client, retries via `reset()`), `global-error`
+  catches a throw in the root layout itself so it renders its own html and body with inline
+  styles (the layout fonts and globals are not available there, production only), and
+  `not-found` is the 404. All three lean on QuatrefoilPattern and the shared Button.
 - `app/page.tsx` home. In order it mounts Carousal (hero slider), BrandIntro, a quiz
   comment stub, the Our Range section (SectionHeading plus two ProductShowCase cards for
   Basmati and Regional, each wrapped in a ProductSpotlight so a tap opens the pack dialog),
@@ -48,10 +56,14 @@ at the top of `app/page.tsx`.
 - `app/globals.css` tailwind import, the `tw-animate-css` import, theme tokens, and the
   `custom-container` utility.
 - `app/components/` shared components.
-  - Site wide: Header, Footer, Faqs, ScrollToTop, QuatrefoilPattern, Reveal, Coverflow,
-    `ui/button`, `ui/dialog`, `ui/NavArrow`. ScrollToTop adapts to the route via
+  - Site wide: Header, Footer, Faqs, Breadcrumb, ScrollToTop, QuatrefoilPattern, Reveal,
+    Coverflow, `ui/button`, `ui/dialog`, `ui/NavArrow`. ScrollToTop adapts to the route via
     `useIsHomePage`: on home it shows the `family-scooter` image at the left end with the
-    button at the right end, off home it just right aligns the button.
+    button at the right end, off home it just right aligns the button. Faqs takes a `faqs`
+    prop (each page owns its own array) and exports the `Faq` type. Breadcrumb is a desktop
+    only trail for product pages, takes a `Crumb[]` of label plus href and exports `Crumb`,
+    the links are still spans for now since the routes are not ready, last crumb is the
+    current page as plain text.
   - Home page: Carousal (client hero slider with prev / next, dots and a centred logo;
     each slide carries a mobile and a desktop shot, the desktop one kicks in at sm),
     BrandIntro (the "world's number 1" brand block, hand gesture slides in via Motion),
@@ -73,14 +85,49 @@ at the top of `app/page.tsx`.
 - `app/lib/utils.ts` the `cn()` helper, use it to merge class lists.
 - `app/hooks/` shared client hooks. `useIsHomePage` wraps `usePathname() === "/"`, use it
   instead of re-deriving the home check (Header and ScrollToTop both consume it).
-- `app/products/classic/` the Classic product page. `page.tsx` mounts HeroSection, Range,
-  Body and Faqs. Sections nest rather than sit flat: HeroSection holds ProductGallery and
-  BuyOptions, Body holds Flagship, PairsWellWith and ExploreUniverse. SectionHeading and
-  BagIcon are small shared helpers. The top level sections are each wrapped in `Reveal`
-  (page.tsx wraps HeroSection, Range and Faqs, Body wraps its own three) so they fade up
-  as they scroll into view.
+  `useMediaQuery` tracks whether a css media query matches and keeps it in sync on resize,
+  it starts false so the server render and first paint stay mobile then resolves on mount,
+  use it to drive js that has to track a tailwind breakpoint eg `(min-width: 640px)`.
+- `app/products/classic/` the Classic product page, and the home of the reusable product
+  page sections. `page.tsx` owns all the data (a `BREADCRUMB`, `FEATURES`, `GALLERY`,
+  `RETAILERS`, `PACKS`, `PRODUCTS`, `DISHES` and `FAQS` set of consts) and passes each down
+  as a prop, so the sections themselves carry no hardcoded content and a second product page
+  can mount them with different data. In order it renders Breadcrumb, then HeroSection,
+  Range, Flagship, PairsWellWith, ExploreUniverse and Faqs, each top level section wrapped
+  in its own `Reveal` so it fades up as it scrolls into view (the old `Body` wrapper is gone,
+  moved to `trash/`). HeroSection is the one with local state, it owns the pack types
+  (`PackLabel`, `PackSize`, `Pack`, `Retailer`), tracks the selected pack, and stacks
+  ProductGallery, Features, BuyOptions and Retailers. The pieces:
+  - ProductGallery (left column, takes `currentPack` plus a `gallery` keyed by pack, exports
+    the `Thumb` type, main viewer with mobile NavArrows and a thumbnail strip from sm up),
+  - Features (the hero feature strip, a 3 up icon row, takes `Feature[]` and exports
+    `Feature`),
+  - BuyOptions (the pack size selector, rice sack art toggles selected vs unselected),
+  - Retailers (the Buy Now button that reveals the retailer logo row, takes `retailers` plus
+    the active `pack` so each logo links to the right pack url),
+  - Range (the gold standard range cards, takes `products`, exports `Product` and `Spec`),
+  - PairsWellWith (takes `dishes`, exports `Dish`, renders a DishCard each),
+  - ExploreUniverse (the subbrand coverflow, takes an optional `currrentProduct` to drop the
+    current product from the carousel),
+  - SectionHeading is the shared heading helper. `BagIcon` is an inline svg helper that is
+    currently unused.
+- `app/products/dubar-basmati-rice/` a second product page. It imports the section
+  components and their types from `../classic` and mounts them exactly like the classic page,
+  with its own data arrays. Right now those arrays are still the classic copy and point at
+  the classic assets, so it is a working scaffold to be filled in with the real Dubar content
+  and art (staged under `public/IG Dubar/`).
 - `public/ig-classic-assets/` images and icons for the Classic page. Subfolders: `icons/`,
-  `1kg/`, `5kg/`, `dishes/`, `india-gate-subbrands/`, `rice-sacks/`.
+  `1kg/`, `5kg/`, `dishes/`, `india-gate-subbrands/`, `rice-sacks/`. At the folder root sit
+  the shared gallery shots reused across packs (`story.jpg`, `nutrition.jpg`,
+  `manufacturer.jpg`, `certifications.jpg`, `pack-front.jpg`, `pack-back.jpg`), the range
+  card art (`india-agte-classic-hero-section.jpg`, note the typo in the filename, and
+  `biryani-rice.png`) and `pattern-icon.png` for SectionHeading. The `icons/` feature strip
+  art is now the standalone `grains.png`, `rice.png` and `aged.png` (see the icon note in
+  Conventions). The `india-gate-subbrands/` packs are lowercase kebab named
+  (`ig-mogra-1kg-front.jpg`, `ig-dubar-1kg-front.jpg`, `ig-biryani-1kg-front.jpg`,
+  `ig-feast-rozzana-1kg-front.jpg`, `ig-everyday-1kg-front.jpg`).
+- `public/IG Dubar/` staged Dubar art (`1Kg/` and `5Kg/`, each with front and back, a hero
+  shot and a set of `PDP Tile` images plus one mp4), not wired into the dubar page yet.
 - Home spotlight packs each have their own folder, one per range card and pack array:
   `public/basmati-products/` (BASMATI_PACKS), `public/regional/` (REGIONAL_PACKS),
   `public/masala/` (MASALA_PACKS) and `public/unity/` (UNITY_PACKS).
@@ -120,11 +167,13 @@ at the top of `app/page.tsx`.
   at 1600px. It is idempotent, already optimised files are skipped, so it is safe to run on
   the whole folder any time. next/image still does per device resizing and webp at runtime,
   this only keeps the source files in the repo from being huge.
-- Attribute icons (`icons/`) are flat PNGs with the colour baked in. The `*-gold.png`
-  variants (`grain-gold`, `aroma-gold`, `aging-gold`) are for the golden hero feature
-  strip, the plain black ones (`grain.png`, `aging.png`, `best-for.png`, `elongation.png`)
-  are for everywhere else, eg the Range spec rows. They are not recoloured at runtime. The
-  one exception is `BagIcon`, an inline SVG that recolours via `currentColor`.
+- Attribute icons (`icons/`) are flat PNGs with the colour baked in, not recoloured at
+  runtime. The hero feature strip (Features) uses the standalone `grains.png`, `rice.png`
+  and `aged.png`. The plain black ones (`grain.png`, `aging.png`, `best-for.png`,
+  `elongation.png`) are for the Range spec rows. The older `*-gold.png` variants
+  (`grain-gold`, `aroma-gold`, `aging-gold`) are now unused leftovers, nothing references
+  them. `BagIcon` is an inline svg that would recolour via `currentColor` but is also
+  currently unused.
 - QuatrefoilPattern heights are kept in multiples of 5 (5%, 10%, 25%, 35%) so the brand
   pattern stays visually consistent from one section to the next.
 - Scroll reveal: `Reveal` (`app/components/Reveal.tsx`) is the shared Motion wrapper that

@@ -246,7 +246,7 @@ const ProductSpotlight = ({
 
             <div className="relative shrink-0 ">
               <Notch count={items.length} active={active} />
-              <DialogTitle className="font-display text-3xl capitalize leading-none sm:text-2xl px-4 py-6 text-center">
+              <DialogTitle className="font-display text-3xl capitalize leading-none sm:text-2xl px-4 py-6 sm:py-3 sm:pb-0 sm:px-0 text-center">
                 {current.text}
               </DialogTitle>
             </div>
